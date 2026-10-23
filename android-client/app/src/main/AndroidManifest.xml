@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
 <uses-permission android:name="android.permission.INTERNET"/>
-<application android:theme="@style/AppTheme" android:label="Trader Business Control — Client" android:icon="@drawable/app_icon">
+<application android:theme="@style/AppTheme" android:label="ShopWatch — Client" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher">
 <activity android:name=".MainActivity" android:exported="true" android:resizeableActivity="true" android:windowSoftInputMode="adjustResize" android:configChanges="orientation|screenSize|smallestScreenSize">
 <intent-filter><action android:name="android.intent.action.MAIN"/><category android:name="android.intent.category.LAUNCHER"/></intent-filter>
 </activity>
