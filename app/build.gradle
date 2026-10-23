@@ -3,11 +3,11 @@ plugins {
 }
 
 android {
-    namespace 'com.traderbusinesscontrol.client'
+    namespace 'com.shopwatch.client'
     compileSdk 35
 
     defaultConfig {
-        applicationId 'com.traderbusinesscontrol.client'
+        applicationId 'com.shopwatch.client'
         minSdk 24
         targetSdk 35
         versionCode 2
