@@ -1,0 +1,35 @@
+name: Build ShopWatch Admin Installer
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'admin/**'
+      - 'main.js'
+      - 'package.json'
+      - 'admin_main.js'
+      - 'Client App/**'
+      - 'IMPLEMENTATION_NOTES.txt'
+      - '.github/workflows/build-windows-admin.yml'
+permissions:
+  contents: read
+jobs:
+  build-windows-installer:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund
+      - name: Build Windows installer
+        run: npm run dist
+      - name: Upload installer artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: ShopWatch-Admin-Windows-Installer
+          path: dist/ShopWatch-Admin-Setup-*.exe
+          if-no-files-found: error
+          retention-days: 30
