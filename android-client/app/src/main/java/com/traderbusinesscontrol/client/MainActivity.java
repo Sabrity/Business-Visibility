@@ -1,4 +1,4 @@
-package com.traderbusinesscontrol.client;
+package com.shopwatch.client;
 
 import android.app.Activity;
 import android.os.Bundle;
