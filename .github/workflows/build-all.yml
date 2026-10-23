@@ -1,8 +1,8 @@
-name: Build Trader Business Control Apps
+name: ShopWatch Apps
 on:
   push:
     branches:
-      - build-20261008-admin-client
+      - ShopWatch-Admin-Client-Windows
   workflow_dispatch:
 jobs:
   android:
@@ -11,9 +11,9 @@ jobs:
       matrix:
         include:
           - dir: android-client
-            name: Trader-Business-Control-Client-APK
+            name: ShopWatch-Client-APK
           - dir: android-admin
-            name: Trader-Business-Control-Admin-APK
+            name: ShopWatch-Admin-APK
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-java@v4
@@ -42,5 +42,5 @@ jobs:
       - run: npm run dist
       - uses: actions/upload-artifact@v4
         with:
-          name: Trader-Business-Control-Admin-Windows-Installer
-          path: admin-desktop/dist/Trader-Business-Control-Admin-Setup.exe
+          name: ShopWatch-Admin-Windows-Installer
+          path: admin-desktop/dist/ShopWatch-Admin-Setup.exe
