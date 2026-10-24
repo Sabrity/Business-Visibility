@@ -1,4 +1,4 @@
-name: ShopWatch Apps
+name: ShopWatch
 on:
   push:
     branches:
