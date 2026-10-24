@@ -30,17 +30,27 @@ jobs:
           path: ${{ matrix.dir }}/app/build/outputs/apk/debug/app-debug.apk
   windows:
     runs-on: windows-latest
-    defaults:
-      run:
-        working-directory: admin-desktop
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - run: npm install
-      - run: npm run dist
-      - uses: actions/upload-artifact@v4
+      - name: Install dependencies
+        run: npm install
+      - name: Build Windows installer
+        run: npm run dist
+      - name: Check generated installer
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "dist")) {
+            Write-Error "The dist directory was not created."
+            exit 1
+          }
+          Get-ChildItem "dist" -Recurse
+      - name: Upload Windows installer
+        uses: actions/upload-artifact@v4
         with:
           name: ShopWatch-Admin-Windows-Installer
-          path: admin-desktop/dist/ShopWatch-Admin-Setup.exe
+          path: dist/*.exe
+          if-no-files-found: error
+          retention-days: 14
