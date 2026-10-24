@@ -39,45 +39,31 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
+ 
   windows:
     runs-on: windows-latest
-
+    defaults:
+      run:
+        working-directory: admin-desktop
     steps:
       - uses: actions/checkout@v4
 
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-          cache: npm
-          cache-dependency-path: admin-desktop/package-lock.json
+
+      - name: Verify project folder
+        run: |
+          if (!(Test-Path "package.json")) {
+            Write-Error "package.json not found in admin-desktop"
+            exit 1
+          }
 
       - name: Install dependencies
-        working-directory: admin-desktop
         run: npm install
 
       - name: Build Windows installer
-        working-directory: admin-desktop
         run: npm run dist
-
-      - name: Check generated installer
-        working-directory: admin-desktop
-        shell: pwsh
-        run: |
-          if (-not (Test-Path "dist")) {
-            Write-Error "The dist directory was not created."
-            exit 1
-          }
-
-          $installers = Get-ChildItem "dist" -Filter "*.exe" -File
-
-          if ($installers.Count -eq 0) {
-            Write-Error "No Windows installer (.exe) was generated."
-            exit 1
-          }
-
-          $installers | ForEach-Object {
-            Write-Host "Installer generated: $($_.FullName)"
-          }
 
       - name: Upload Windows installer
         uses: actions/upload-artifact@v4
@@ -86,3 +72,4 @@ jobs:
           path: admin-desktop/dist/*.exe
           if-no-files-found: error
           retention-days: 14
+
