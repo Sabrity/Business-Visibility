@@ -1,4 +1,4 @@
-
+```yaml
 name: ShopWatch Apps
 
 on:
@@ -10,6 +10,7 @@ on:
 jobs:
   android:
     runs-on: ubuntu-latest
+
     strategy:
       matrix:
         include:
@@ -39,25 +40,47 @@ jobs:
           if-no-files-found: error
           retention-days: 14
 
- 
   windows:
     runs-on: windows-latest
-    defaults:
-      run:
-        working-directory: admin-desktop
+
     steps:
       - uses: actions/checkout@v4
 
-           - name: Setup Node.js
+      # ===== REPLACEMENT: WINDOWS NODE SETUP =====
+      # Do not add npm cache settings here.
+      - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
           node-version: '22'
+      # ===== END OF REPLACEMENT =====
 
       - name: Install dependencies
+        working-directory: admin-desktop
         run: npm install
 
       - name: Build Windows installer
+        working-directory: admin-desktop
         run: npm run dist
+
+      - name: Check generated installer
+        working-directory: admin-desktop
+        shell: pwsh
+        run: |
+          if (-not (Test-Path "dist")) {
+            Write-Error "The dist directory was not created."
+            exit 1
+          }
+
+          $installers = Get-ChildItem "dist" -Filter "*.exe" -File
+
+          if ($installers.Count -eq 0) {
+            Write-Error "No Windows installer (.exe) was generated."
+            exit 1
+          }
+
+          $installers | ForEach-Object {
+            Write-Host "Installer generated: $($_.FullName)"
+          }
 
       - name: Upload Windows installer
         uses: actions/upload-artifact@v4
@@ -66,4 +89,4 @@ jobs:
           path: admin-desktop/dist/*.exe
           if-no-files-found: error
           retention-days: 14
-
+```
