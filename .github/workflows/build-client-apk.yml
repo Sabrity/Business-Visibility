@@ -1,4 +1,4 @@
-name: Build Client App APK
+name: ShopWatch-Client-APK
 on:
   workflow_dispatch:
   push:
