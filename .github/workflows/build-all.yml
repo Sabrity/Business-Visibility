@@ -35,9 +35,12 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: '22'
-      - name: Install dependencies
+           - name: Install dependencies
+        working-directory: admin-desktop
         run: npm install
+
       - name: Build Windows installer
+        working-directory: admin-desktop
         run: npm run dist
       - name: Check generated installer
         shell: pwsh
