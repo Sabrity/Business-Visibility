@@ -1,4 +1,4 @@
-name: Build Admin App APK
+name: ShopWatch-Admin-APK
 on:
   workflow_dispatch:
   push:
