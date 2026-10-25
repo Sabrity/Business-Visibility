@@ -1,4 +1,4 @@
-name: Build ShopWatch Admin Installer
+name: ShopWatch-Admin-Windows-Installer
 on:
   workflow_dispatch:
   push:
